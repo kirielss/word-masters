@@ -1,5 +1,4 @@
 const WORD_URL = "https://words.dev-apis.com/word-of-the-day";
-const cell = document.querySelector('.cell');
 
 // variavel da palavra vinda da promise
 let word;
@@ -13,6 +12,8 @@ let row = 0;
 // variavel do nth elemento no HTML
 let nth;
 
+
+// função async para pegar a palavra do dia
 async function getWord() {
     const promise = await fetch(WORD_URL);
     const processedResponse = await promise.json();
@@ -20,26 +21,33 @@ async function getWord() {
     return;
 }
 
+// função async para validar a tentativa do usuário
+/*
+async function postWord() {
+
+}
+*/
+
 document.addEventListener("keydown", (event) => {
-        writeWord(event.key)
+    writeWord(event.key)
 })
 
 // função para armazenar letra digitada na variável tryout.
 function writeWord(letter) {
+
     // verifica se o caractere digitado é uma letra do alfabeto. Se sim, armazena até ter 5 letras
     if ((tryout.length < 5) && (/^[a-zA-Z]$/.test(letter))) {
         tryout += letter;
-        console.log(tryout);
         writeLetter(letter);
 
     // apaga letra com backspace
-    } else if (letter === 'Backspace') {
-        tryout = tryout.slice(0, -1);
+    } else if ((letter === 'Backspace') && (tryout !== '')) {
         eraseLetter(letter);
+        tryout = tryout.slice(0, -1);
 
     // valida a tentativa com enter
     } else if ((tryout.length === 5) && (letter === 'Enter')) {
-        console.log('validando tentativa');
+        validate(tryout);
         row++;
         if (row > 5) {
             alert('GAME OVER');
@@ -50,24 +58,22 @@ function writeWord(letter) {
 
 // escreve a letra no bloco
 function writeLetter(x) {
-    nthConverter();
-    console.log(nthConverter());
     document.querySelector(nthConverter()).innerText = x;
 }
 
 // apaga a letra do bloco
-/*
 function eraseLetter(x) {
-
+    document.querySelector(nthConverter()).innerText = '';
 }
-*/
 
-    // calcula qual elemento a escrever no HTML e converte para string
+// calcula qual elemento a escrever no HTML e converte para string
 function nthConverter() {
     nth = (tryout.length + (5 * row));
     return ('.cell:nth-of-type(' + nth + ')');
 }
 
-
+function validate(input) {
+    
+}
 
 // ideia css: position fixed dark mode toggle
