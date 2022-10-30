@@ -11,7 +11,7 @@
 Link to the live application:
 https://keen-sopapillas-794045.netlify.app/
 
-![image]('screenshot.png')
+![image]('/../screenshot.png)
 
 Thanks for stopping by!
 
