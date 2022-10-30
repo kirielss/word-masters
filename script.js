@@ -14,6 +14,11 @@ let row = 0;
 // variavel do nth elemento no HTML
 let nth;
 
+// variavel da tentativa a ser validada como string de objeto
+let guess;
+
+// variavel booleana indicando se a palavra é válida
+let valid;
 
 // função async para pegar a palavra do dia
 async function getWord() {
@@ -26,11 +31,26 @@ async function getWord() {
 getWord();
 
 // função async para checar se a palavra é valida
-/*
 async function postWord() {
+    const response = await fetch('https://words.dev-apis.com/validate-word', {
+        method: 'POST',
+        body: guess
+    })
+    const processedResult = await response.json();
+    valid = processedResult.validWord;
 
+    if (valid) {
+        check(tryout);
+        row++;
+        if (row > 5) {
+            alert('Que pena, você perdeu... A palavra correta era ' + word);
+        }
+        tryout = '';
+    } else {
+        alert('PALAVRA INVÁLIDA')
+    }
 }
-*/
+
 
 // event listener para escutar o input do usuário
 document.addEventListener("keydown", (event) => {
@@ -52,13 +72,9 @@ function writeWord(letter) {
 
     // valida a tentativa com enter
     } else if ((tryout.length === 5) && (letter === 'Enter')) {
-        // if (postWord(tryout)) {}         else {efeito de erro}
-        check(tryout);
-        row++;
-        if (row > 5) {
-            alert('GAME OVER');
-        }
-        tryout = '';
+        prepare(tryout);
+        postWord()
+
     }
 }
 
@@ -76,6 +92,14 @@ function eraseLetter(x) {
 function nthConverter(position) {
     nth = (position + (5 * row));
     return ('.cell:nth-of-type(' + nth + ')');
+}
+
+// prepara a tentativa criando o objeto e convertendo em string
+function prepare(trial) {
+    const challenge = {
+        "word": trial,
+    };
+    guess = JSON.stringify(challenge);
 }
 
 // checa se o usuário acertou
@@ -102,7 +126,7 @@ function check(input) {
                     turnYellow(i+1);
                 }
             }
-        };
+        }
     }
 
 }
@@ -124,7 +148,3 @@ function turnGray() {
         document.querySelector(nthConverter(z+1)).style.color = 'white';
     }
 }
-
-
-
-// ideia css: position fixed dark mode toggle
