@@ -48,3 +48,23 @@ main {
     font-size: 2rem;
     border: 3px solid lightgrey;
 }
+
+.hidden {
+    display: none;
+    margin-top: 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    display: none;
+    animation: spin 1s infinite linear;
+    position: absolute;
+    font-size: 3rem;
+    top: 9rem;
+    left: 48%
+}
